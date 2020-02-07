@@ -2,11 +2,17 @@ import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
 import "typeface-roboto";
-import rootReducer from "./modules";
+import modules, { rootSaga } from "./modules";
 import { createStore, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
+import createSagaMiddleware from "redux-saga";
 
-const store = createStore(rootReducer, applyMiddleware());
+
+const sagaMiddleWare = createSagaMiddleware();
+
+const store = createStore(modules, applyMiddleware(sagaMiddleWare));
+
+sagaMiddleWare.run(rootSaga);
 
 ReactDOM.render(
   <Provider store={store}>

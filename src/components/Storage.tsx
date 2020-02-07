@@ -1,38 +1,31 @@
-import React, { useEffect, useState } from "react";
-import FirebaseApp from "../FirebaseApp";
-import { LinearProgress } from "@material-ui/core";
-import styled from "styled-components";
-import { Transition } from "react-transition-group";
-import DragAndDrop from "./DragAndDrop";
-import useItemList from "../hooks/useItemList";
+import React, { 
+  useEffect, 
+  // useState 
+} from "react";
+// import FirebaseApp from "../FirebaseApp";
+// import { LinearProgress } from "@material-ui/core";
+// import { Transition } from "react-transition-group";
+// import DragAndDrop from "./DragAndDrop";
+import useItemList from "../hooks/useFiles";
+import File from "./File";
 
-const transitionStyles: any = {
-  entering: { opacity: 1 },
-  entered: { opacity: 1 },
-  exiting: { opacity: 1 },
-  exited: { opacity: 0 }
-};
+// const transitionStyles: any = {
+//   entering: { opacity: 1 },
+//   entered: { opacity: 1 },
+//   exiting: { opacity: 1 },
+//   exited: { opacity: 0 }
+// };
 
 const Storage: React.FC = () => {
-  const str = FirebaseApp.storage();
-  const ref = str.ref();
-  const [load, setLoad] = useState(0);
-
-  const [itemList, setItemList] = useItemList();
-
-  const [fileList, setFileList] = useState<firebase.storage.Reference[] | null>(
-    null
-  );
+  const { fileList, folderList, setRef, ref } = useItemList();
 
   useEffect(() => {
-    ref.list().then(result => {
-      setFileList(result.items);
-    });
+    setRef(ref);
   }, []);
 
   return (
     <div>
-      <Transition in={fileList === null} timeout={300}>
+      {/* <Transition in={fileList === null} timeout={300}>
         {state => (
           <LinearProgress
             variant="determinate"
@@ -43,19 +36,33 @@ const Storage: React.FC = () => {
             }}
           />
         )}
-      </Transition>
-      {fileList?.map(file => {
-        console.log(file);
-        file.getMetadata().then(console.log);
-        return file.name;
-      })}
-      {fileList?.toString()}
+      </Transition> */}
+
+      {ref.parent && (
+        <File isToParent={true} isFolder={true} fileRef={ref.parent} />
+      )}
+
+      {folderList.map((folder, i) => (
+        <File isFolder={true} key={i} fileRef={folder} />
+      ))}
+
+      {fileList?.map((file, i) => (
+        <File key={i} fileRef={file} />
+      ))}
+
+      {/* <button
+        onClick={() => {
+          setRef(ref);
+        }}
+      >
+        refresh
+      </button> */}
+      {/*
       <DragAndDrop>
-        {" 와! "}
         <DragAndDrop>1</DragAndDrop>
         <DragAndDrop>2</DragAndDrop>
         <DragAndDrop>3</DragAndDrop>
-      </DragAndDrop>
+      </DragAndDrop> */}
     </div>
   );
 };

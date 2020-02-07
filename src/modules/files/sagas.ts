@@ -1,14 +1,28 @@
-import { call, put, takeEvery, takeLatest } from "redux-saga/effects";
-import { ItemsAction } from "./types";
-import { GET_FILE_LIST } from "./actions";
+import { 
+  call, 
+  put, 
+  // delay, 
+  takeLatest, 
+  // cancelled 
+} from "redux-saga/effects";
+import { REQUEST_FILE_LIST, requestFileList, setFileList } from "./actions";
+import { storage } from "firebase";
 
-function* fetchItemsList(action: ItemsAction) {
-	try {
-		action.payload
-		yield put({type: GET_FILE_LIST})
-	} 
+function* fetchFileList(action: ReturnType<typeof requestFileList>) {
+  const payload: storage.Reference = action.payload;
+  try {
+    // yield delay(1200);
+    const result: storage.ListResult = yield call(() => payload.list());
+    const folderList = result.prefixes;
+    const fileList = result.items;
+    console.log(folderList, fileList);
+    yield put(setFileList({ ref: payload, folderList, fileList }));
+  } catch (err) {
+    console.error(err);
+  } finally {
+  }
 }
 
-function* itemsSaga() {
-	yield takeLatest(GET_FILE_LIST, fetchItemsList);
+export default function* watcher() {
+  yield takeLatest(REQUEST_FILE_LIST, fetchFileList);
 }
