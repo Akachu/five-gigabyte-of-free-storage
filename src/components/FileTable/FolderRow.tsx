@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { storage } from 'firebase';
 import { TableRow, TableCell } from '@material-ui/core';
 import { useDropzone } from 'react-dropzone';
@@ -20,6 +20,8 @@ const FolderRow: React.FC<FolderRowProps> = ({
   function handleChangeFolder() {
     setRef(folder);
   }
+
+  const [a, seta] = useState();
 
   const onDrop = useCallback(acceptedFiles => {
     // Do something with the files

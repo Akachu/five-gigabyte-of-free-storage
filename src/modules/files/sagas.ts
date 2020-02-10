@@ -7,7 +7,7 @@ import {
   // cancelled
 } from 'redux-saga/effects';
 import { REQUEST_FILE_LIST, requestFileList, setFileList } from './actions';
-import { FileInfo } from './types';
+import { FileInfo } from './interface';
 
 async function fetchFileMetadata(fileList: Array<storage.Reference>) {
   const promiseList = fileList.map(file => file.getMetadata());

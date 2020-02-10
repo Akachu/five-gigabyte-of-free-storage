@@ -1,12 +1,12 @@
 import React from 'react';
 import { storage } from 'firebase';
-import useFiles from '../hooks/useFiles';
 import { Paper } from '@material-ui/core';
 import styled from 'styled-components';
 import {
   Folder as FolderIcon,
   FolderOpen as FolderOpenIcon,
 } from '@material-ui/icons/';
+import useFiles from '../hooks/useFiles';
 
 interface FileProps {
   fileRef: storage.Reference;
@@ -42,9 +42,8 @@ const File: React.FC<FileProps> = ({
         {isToParent ? '../' : fileRef.name}
       </StyledPaper>
     );
-  } else {
-    return <div>{'wtf is undefined'}</div>;
   }
+  return <div>{'wtf is undefined'}</div>;
 };
 
 export default File;

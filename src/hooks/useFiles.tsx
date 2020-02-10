@@ -1,8 +1,8 @@
 import { useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { storage } from 'firebase';
 import { RootState } from '../modules';
 import { requestFileList } from '../modules/files';
-import { storage } from 'firebase';
 
 export default function useItemList() {
   const fileList = useSelector((state: RootState) => state.files.fileList);
@@ -12,7 +12,7 @@ export default function useItemList() {
   const dispatch = useDispatch();
 
   const setRef = useCallback(
-    (ref: storage.Reference) => dispatch(requestFileList(ref)),
+    (newRef: storage.Reference) => dispatch(requestFileList(newRef)),
     [dispatch],
   );
 

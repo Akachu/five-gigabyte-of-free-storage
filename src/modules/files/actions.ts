@@ -1,6 +1,6 @@
 import { createAction } from 'typesafe-actions';
 import { storage } from 'firebase';
-import { FilesState } from './types';
+import { FilesState } from './interface';
 
 export const REQUEST_FILE_LIST = 'files/REQUEST_FILE_LIST';
 export const SET_FILE_LIST = 'files/REQUEST_FILE_REST';

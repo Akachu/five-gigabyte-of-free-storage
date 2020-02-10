@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { Breadcrumbs, Typography, Link } from '@material-ui/core';
 import useItemList from '../hooks/useFiles';
 import FileTable from '../components/FileTable/FileTable';
+import Header from '../components/Header';
 
 const Storage: React.FC = () => {
   const { fileList, folderList, setRef, ref, isLoading } = useItemList();
@@ -24,7 +25,7 @@ const Storage: React.FC = () => {
           />
         )}
       </Transition> */}
-      <Breadcrumbs aria-label="breadcrumb">
+      {/* <Breadcrumbs aria-label="breadcrumb">
         <Link
           color="inherit"
           href="/"
@@ -40,7 +41,8 @@ const Storage: React.FC = () => {
           Core
         </Link>
         <Typography color="textPrimary">Breadcrumb</Typography>
-      </Breadcrumbs>
+      </Breadcrumbs> */}
+      <Header />
       <FileTable fileList={fileList} folderList={folderList} />
     </div>
   );

@@ -1,6 +1,7 @@
 import { createReducer } from 'typesafe-actions';
 import { storage } from 'firebase';
-import { FilesState, FilesAction } from './types';
+import { FilesAction } from './types';
+import { FilesState } from './interface';
 import { REQUEST_FILE_LIST, SET_FILE_LIST } from './actions';
 
 const initialState: FilesState = {

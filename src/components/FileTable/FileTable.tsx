@@ -6,9 +6,9 @@ import {
   TableRow,
   TableCell,
 } from '@material-ui/core';
+import { storage } from 'firebase';
 import useFiles from '../../hooks/useFiles';
 import { FileInfo } from '../../modules/files';
-import { storage } from 'firebase';
 import FileRow from './FileRow';
 import FolderRow from './FolderRow';
 
@@ -17,12 +17,12 @@ interface FileTableProps {
   folderList: Array<storage.Reference>;
 }
 
-const FileTable: React.FC<FileTableProps> = ({ fileList, folderList }) => {
+const FileTable = ({ fileList, folderList }: FileTableProps) => {
+  const [selected, setSelected] = useState<null | string>(null);
+
   function handleSelect(ref: storage.Reference) {
     setSelected(ref.fullPath);
   }
-
-  const [selected, setSelected] = useState<null | string>(null);
 
   const { ref } = useFiles();
 
@@ -44,19 +44,19 @@ const FileTable: React.FC<FileTableProps> = ({ fileList, folderList }) => {
         <File isToParent={true} isFolder={true} fileRef={ref.parent} />
       )} */}
 
-        {folderList.map((folder, i) => (
+        {folderList.map(folder => (
           <FolderRow
-            key={i}
-            isSelected={selected == folder.fullPath}
+            key={folder.fullPath}
+            isSelected={selected === folder.fullPath}
             folder={folder}
             handleSelect={handleSelect}
           />
         ))}
 
-        {fileList?.map((fileInfo, i) => (
+        {fileList?.map(fileInfo => (
           <FileRow
-            key={i}
-            isSelected={selected == fileInfo.ref.fullPath}
+            key={fileInfo.ref.fullPath}
+            isSelected={selected === fileInfo.ref.fullPath}
             file={fileInfo}
             handleSelect={handleSelect}
           />
