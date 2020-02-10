@@ -1,5 +1,5 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
 interface SizedBoxProps {
   width?: number;
@@ -9,7 +9,7 @@ interface SizedBoxProps {
 const SizedBox: React.FC<SizedBoxProps> = ({
   width = 0,
   height = 0,
-  children
+  children,
 }) => {
   const Box = styled.div`
     width: ${width}px;

@@ -1,14 +1,14 @@
-import React, { useEffect } from "react";
-import firebaseApp from "../FirebaseApp";
+import React, { useEffect } from 'react';
+import firebaseApp from '../FirebaseApp';
 
-export const useAuth = () => {
+const useAuth = () => {
   const [state, setState] = React.useState(() => {
     const user = firebaseApp.auth().currentUser;
-    return { initializing: !user, user: user };
+    return { initializing: !user, user };
   });
 
   function onChange(user: firebase.User | null) {
-    setState({ initializing: false, user: user });
+    setState({ initializing: false, user });
   }
 
   useEffect(() => {
@@ -19,3 +19,5 @@ export const useAuth = () => {
 
   return state;
 };
+
+export default useAuth;

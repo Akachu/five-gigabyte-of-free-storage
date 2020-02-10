@@ -1,6 +1,6 @@
-import { combineReducers } from "redux";
-import { files, filesSaga } from "./files";
-import { all } from "redux-saga/effects";
+import { combineReducers } from 'redux';
+import { all } from 'redux-saga/effects';
+import { files, filesSaga } from './files';
 
 const rootReducer = combineReducers({
   files,

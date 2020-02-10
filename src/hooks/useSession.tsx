@@ -1,7 +1,7 @@
-import React, { useContext } from "react";
+import React, { useContext } from 'react';
 
 const userContext = React.createContext({
-  user: null
+  user: null,
 });
 
 export const useSession = () => {

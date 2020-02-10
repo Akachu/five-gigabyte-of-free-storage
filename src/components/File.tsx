@@ -1,12 +1,12 @@
-import React from "react";
-import { storage } from "firebase";
-import useFiles from "../hooks/useFiles";
-import { Paper } from "@material-ui/core";
-import styled from "styled-components";
+import React from 'react';
+import { storage } from 'firebase';
+import useFiles from '../hooks/useFiles';
+import { Paper } from '@material-ui/core';
+import styled from 'styled-components';
 import {
   Folder as FolderIcon,
-  FolderOpen as FolderOpenIcon
-} from "@material-ui/icons/";
+  FolderOpen as FolderOpenIcon,
+} from '@material-ui/icons/';
 
 interface FileProps {
   fileRef: storage.Reference;
@@ -22,7 +22,7 @@ const StyledPaper = styled(Paper)`
 const File: React.FC<FileProps> = ({
   fileRef,
   isFolder = false,
-  isToParent = false
+  isToParent = false,
 }) => {
   const { setRef } = useFiles();
   if (fileRef) {
@@ -39,11 +39,11 @@ const File: React.FC<FileProps> = ({
         ) : (
           undefined
         )}
-        {isToParent ? "../" : fileRef.name}
+        {isToParent ? '../' : fileRef.name}
       </StyledPaper>
     );
   } else {
-    return <div>{"wtf is undefined"}</div>;
+    return <div>{'wtf is undefined'}</div>;
   }
 };
 

@@ -1,7 +1,7 @@
-import React from "react";
-import { Button } from "@material-ui/core";
-import googleLogo from "../assets/g-logo.png";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
+import { Button } from '@material-ui/core';
+import googleLogo from '../assets/g-logo.png';
 
 const SizedImg = styled.img`
   width: 22px;

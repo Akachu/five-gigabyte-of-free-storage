@@ -1,15 +1,15 @@
-import React from "react";
-import styled from "styled-components";
-import GoogleLoginButton from "../components/GoogleLoginButton";
+import React from 'react';
+import styled from 'styled-components';
 import {
   Paper,
   Typography,
   Backdrop,
-  CircularProgress
-} from "@material-ui/core";
-import SizedBox from "../components/SizedBox";
-import firebase from "../FirebaseApp";
-import { auth } from "firebase";
+  CircularProgress,
+} from '@material-ui/core';
+import { auth } from 'firebase';
+import GoogleLoginButton from '../components/GoogleLoginButton';
+import SizedBox from '../components/SizedBox';
+import firebase from '../FirebaseApp';
 
 const Wrapper = styled.div`
   display: flex;
@@ -42,8 +42,8 @@ const GreySpan = styled.span`
 const LoginPage: React.FC = props => {
   const [loading, setLoading] = React.useState(false);
 
-  let provider = new auth.GoogleAuthProvider();
-  provider.addScope("email");
+  const provider = new auth.GoogleAuthProvider();
+  provider.addScope('email');
 
   const handleLogin = async () => {
     setLoading(true);

@@ -1,21 +1,21 @@
-import React, { useState, MouseEvent } from "react";
+import React, { useState, MouseEvent } from 'react';
 import {
   AppBar,
   IconButton,
   Menu,
   MenuItem,
   Toolbar,
-  Typography
-} from "@material-ui/core";
-import { AccountCircle } from "@material-ui/icons";
-import styled from "styled-components";
-import FirebaseApp from "../FirebaseApp";
+  Typography,
+} from '@material-ui/core';
+import { AccountCircle } from '@material-ui/icons';
+import styled from 'styled-components';
+import FirebaseApp from '../FirebaseApp';
 
 const Title = styled(Typography)`
   flex-grow: 1;
 `;
 
-const Header: React.FC = props => {
+const Header: React.FC = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const handleMenu = (event: MouseEvent<HTMLElement>) => {
@@ -50,13 +50,13 @@ const Header: React.FC = props => {
           id="menu-appbar"
           anchorEl={anchorEl}
           anchorOrigin={{
-            vertical: "top",
-            horizontal: "right"
+            vertical: 'top',
+            horizontal: 'right',
           }}
           keepMounted
           transformOrigin={{
-            vertical: "top",
-            horizontal: "right"
+            vertical: 'top',
+            horizontal: 'right',
           }}
           open={open}
           onClose={handleClose}
