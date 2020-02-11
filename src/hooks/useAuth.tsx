@@ -13,7 +13,6 @@ const useAuth = () => {
 
   useEffect(() => {
     const unsubscribe = firebaseApp.auth().onAuthStateChanged(onChange);
-
     return () => unsubscribe();
   }, []);
 

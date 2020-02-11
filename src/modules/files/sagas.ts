@@ -8,6 +8,7 @@ import {
 } from 'redux-saga/effects';
 import { REQUEST_FILE_LIST, requestFileList, setFileList } from './actions';
 import { FileInfo } from './interface';
+import { showLoading, hideLoading } from 'react-redux-loading-bar';
 
 async function fetchFileMetadata(fileList: Array<storage.Reference>) {
   const promiseList = fileList.map(file => file.getMetadata());
@@ -23,8 +24,6 @@ async function fetchFileMetadata(fileList: Array<storage.Reference>) {
     size: row.size,
   }));
 
-  console.log(fileDataList);
-
   return fileDataList;
 }
 
@@ -32,6 +31,7 @@ function* fetchFileList(action: ReturnType<typeof requestFileList>) {
   const { payload } = action;
 
   try {
+    yield put(showLoading());
     const result: storage.ListResult = yield call(() => payload.list());
     const folderList = result.prefixes;
     const fileRefList = result.items;
@@ -44,7 +44,7 @@ function* fetchFileList(action: ReturnType<typeof requestFileList>) {
   } catch (err) {
     console.error(err);
   } finally {
-    // 
+    yield put(hideLoading());
   }
 }
 

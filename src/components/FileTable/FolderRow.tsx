@@ -1,8 +1,8 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
+import { useHistory } from 'react-router-dom';
 import { storage } from 'firebase';
 import { TableRow, TableCell } from '@material-ui/core';
 import { useDropzone } from 'react-dropzone';
-import FileTableRow from './FileTableRow';
 import useFiles from '../../hooks/useFiles';
 
 interface FolderRowProps {
@@ -17,11 +17,11 @@ const FolderRow: React.FC<FolderRowProps> = ({
   handleSelect,
 }) => {
   const { setRef } = useFiles();
+  const history = useHistory();
   function handleChangeFolder() {
+    history.push(`/storage/${folder.fullPath}`);
     setRef(folder);
   }
-
-  const [a, seta] = useState();
 
   const onDrop = useCallback(acceptedFiles => {
     // Do something with the files

@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Redirect } from 'react-router-dom';
 import styled from 'styled-components';
 import {
   Paper,
@@ -10,6 +11,7 @@ import { auth } from 'firebase';
 import GoogleLoginButton from '../components/GoogleLoginButton';
 import SizedBox from '../components/SizedBox';
 import firebase from '../FirebaseApp';
+import useAuth from '../hooks/useAuth';
 
 const Wrapper = styled.div`
   display: flex;
@@ -40,7 +42,13 @@ const GreySpan = styled.span`
 `;
 
 const LoginPage: React.FC = props => {
-  const [loading, setLoading] = React.useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const { user } = useAuth();
+
+  if (user) {
+    return <Redirect to="/storage" />;
+  }
 
   const provider = new auth.GoogleAuthProvider();
   provider.addScope('email');
@@ -63,9 +71,12 @@ const LoginPage: React.FC = props => {
       </StyledBackdrop>
       <LoginForm variant="outlined" component="div">
         <Typography variant="h5">
-          <BlueSpan>5G</BlueSpan>
-          <GreySpan>oFS</GreySpan>
+          <BlueSpan>5 Gigabyte</BlueSpan> of
         </Typography>
+        <Typography variant="h5">
+          <GreySpan>free storage</GreySpan>
+        </Typography>
+
         <SizedBox height={4} />
         <Typography variant="h5">sign in</Typography>
         <SizedBox height={12} />

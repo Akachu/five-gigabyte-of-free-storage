@@ -1,6 +1,5 @@
 import React from 'react';
 import { TableRow, TableCell } from '@material-ui/core';
-import { FileInfo } from '../../modules/files';
 
 interface FileTableRowProps {
   isSelected: boolean;

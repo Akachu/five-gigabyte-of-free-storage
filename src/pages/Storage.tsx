@@ -1,15 +1,20 @@
 import React, { useEffect } from 'react';
-import { Breadcrumbs, Typography, Link } from '@material-ui/core';
+import { storage } from 'firebase';
+import { useParams } from 'react-router-dom';
 import useItemList from '../hooks/useFiles';
 import FileTable from '../components/FileTable/FileTable';
 import Header from '../components/Header';
+import NavBar from '../components/NavBar';
+import LoadingBarContainer, { LoadingBar } from 'react-redux-loading-bar';
 
 const Storage: React.FC = () => {
-  const { fileList, folderList, setRef, ref, isLoading } = useItemList();
+  const { fileList, folderList, setRef } = useItemList();
+  const { path } = useParams();
 
   useEffect(() => {
-    setRef(ref);
-  }, []);
+    const newRef = storage().ref(path);
+    setRef(newRef);
+  }, [path]);
 
   return (
     <div>
@@ -25,24 +30,9 @@ const Storage: React.FC = () => {
           />
         )}
       </Transition> */}
-      {/* <Breadcrumbs aria-label="breadcrumb">
-        <Link
-          color="inherit"
-          href="/"
-          // onClick={handleClick}
-        >
-          Material-UI
-        </Link>
-        <Link
-          color="inherit"
-          href="/getting-started/installation/"
-          // onClick={handleClick}
-        >
-          Core
-        </Link>
-        <Typography color="textPrimary">Breadcrumb</Typography>
-      </Breadcrumbs> */}
       <Header />
+      <LoadingBarContainer style={{ backgroundColor: '#3f51b5' }} />
+      <NavBar />
       <FileTable fileList={fileList} folderList={folderList} />
     </div>
   );
