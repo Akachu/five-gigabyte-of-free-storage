@@ -12,6 +12,9 @@
     "@testing-library/user-event": "^7.1.2",
     "@types/axios": "^0.14.0",
     "@types/jest": "^24.0.0",
+    "@types/koa": "^2.11.1",
+    "@types/koa-router": "^7.4.0",
+    "@types/koa-static": "^4.0.1",
     "@types/node": "^12.0.0",
     "@types/react": "^16.9.0",
     "@types/react-dom": "^16.9.0",
@@ -53,6 +56,9 @@
     "jest-environment-jsdom-fourteen": "1.0.1",
     "jest-resolve": "24.9.0",
     "jest-watch-typeahead": "0.4.2",
+    "koa": "^2.11.0",
+    "koa-router": "^8.0.7",
+    "koa-static": "^5.0.0",
     "mini-css-extract-plugin": "0.9.0",
     "optimize-css-assets-webpack-plugin": "5.0.3",
     "pnp-webpack-plugin": "1.6.0",
@@ -88,12 +94,27 @@
     "webpack": "4.41.5",
     "webpack-dev-server": "3.10.1",
     "webpack-manifest-plugin": "2.2.0",
+    "webpack-node-externals": "^1.7.2",
     "workbox-webpack-plugin": "4.3.1"
   },
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
-    "test": "node scripts/test.js"
+    "test": "node scripts/test.js",
+    "start:server": "node dist/server.js",
+    "build:server": "node scripts/build.server.js"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   },
   "eslintConfig": {
     "extends": [
@@ -101,15 +122,19 @@
       "airbnb",
       "prettier"
     ],
+    "plugins": [
+      "prettier"
+    ],
     "rules": {
       "react/prefer-stateless-function": 0,
       "react/jsx-filename-extension": 0,
       "react/jsx-one-expression-per-line": 0,
-      "linebreak-style": 0,
+      "react/jsx-props-no-spreading": 0,
+      "react/prop-types": 0,
+      "linebreak-style": "off",
       "no-unused-vars": "warn",
-      "react/prop-types": "off",
-      "allowForLoopAfterthoughts": true,
-      "react/jsx-props-no-spreading": "off",
+      "no-plusplus": "off",
+      "no-continue": "off",
       "import/extensions": [
         "error",
         "ignorePackages",
@@ -149,18 +174,6 @@
     "env": {
       "browser": true
     }
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
   },
   "jest": {
     "roots": [

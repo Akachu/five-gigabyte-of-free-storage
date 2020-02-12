@@ -41,7 +41,7 @@ const GreySpan = styled.span`
   color: #424242;
 `;
 
-const LoginPage: React.FC = props => {
+const LoginPage: React.FC = () => {
   const [loading, setLoading] = useState(false);
 
   const { user } = useAuth();

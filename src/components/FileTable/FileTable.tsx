@@ -40,10 +40,6 @@ const FileTable = ({ fileList, folderList }: FileTableProps) => {
         </TableRow>
       </TableHead>
       <TableBody>
-        {/* {ref.parent && (
-        <File isToParent={true} isFolder={true} fileRef={ref.parent} />
-      )} */}
-
         {folderList.map(folder => (
           <FolderRow
             key={folder.fullPath}
@@ -53,7 +49,7 @@ const FileTable = ({ fileList, folderList }: FileTableProps) => {
           />
         ))}
 
-        {fileList?.map(fileInfo => (
+        {fileList.map(fileInfo => (
           <FileRow
             key={fileInfo.ref.fullPath}
             isSelected={selected === fileInfo.ref.fullPath}
