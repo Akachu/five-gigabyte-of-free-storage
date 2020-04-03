@@ -28,33 +28,30 @@ const FileRow: React.FC<FileRowProps> = ({
     return `${size}${unit[pow]}B`;
   };
 
+  async function handleDownload() {
+    const url = await file.ref.getDownloadURL();
+    const response = await axios({
+      url,
+      method: 'GET',
+      responseType: 'blob',
+    });
+    const downloadUrl = window.URL.createObjectURL(new Blob([response.data]));
+    const link = document.createElement('a');
+    link.href = downloadUrl;
+    link.setAttribute('download', file.ref.name);
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+  }
+
   return (
     <FileTableRow
       isSelected={isSelected}
       name={file.name}
       lastModified={file.createdAt.toLocaleString()}
       fileSize={getSizeString(file.size)}
-      onClick={() => handleSelect(file.ref)}
-      onDoubleClick={() => {
-        console.log(file.ref);
-        file.ref.getDownloadURL().then(url => {
-          axios({
-            url,
-            method: 'GET',
-            responseType: 'blob',
-          }).then(response => {
-            const downloadUrl = window.URL.createObjectURL(
-              new Blob([response.data]),
-            );
-            const link = document.createElement('a');
-            link.href = downloadUrl;
-            link.setAttribute('download', file.ref.name);
-            document.body.appendChild(link);
-            link.click();
-          });
-          // file.ref.
-        });
-      }}
+      onClick={handleSelect(file.ref)}
+      onDoubleClick={() => handleDownload()}
     />
   );
 };

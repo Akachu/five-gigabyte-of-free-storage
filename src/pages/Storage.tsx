@@ -17,7 +17,7 @@ const Storage: React.FC = () => {
   }, [path]);
 
   return (
-    <div>
+    <div style={{ display: 'flex', height: '100%', flexDirection: 'column' }}>
       <Header />
       <LoadingBarContainer style={{ backgroundColor: '#3f51b5' }} />
       <NavBar />

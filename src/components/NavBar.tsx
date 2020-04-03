@@ -25,7 +25,7 @@ const NavBar: React.FC = () => {
 
   const breadcrubsChilds = [];
 
-  for (let i = 0; i < pathList.length; i++) {
+  for (let i = 0; i < pathList.length; i += 1) {
     const row = pathList[i];
     if (i === 0 && row === '') continue;
     pathString += `/${row}`;
