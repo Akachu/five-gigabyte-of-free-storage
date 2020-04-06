@@ -19,15 +19,14 @@ const Row = styled.div`
     outline: none;
   }
   width: 100%;
-  height: 40px;
+  height: 48px;
   padding: 5px;
+  display: flex;
+  align-items: center;
 `;
 
 const Cell = styled.div`
-  vertical-align: middle;
   display: inline-block;
-  height: 100%;
-  padding: 5px;
   box-sizing: border-box;
 `;
 
@@ -40,11 +39,11 @@ const Name = styled(Cell)`
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
-  width: calc(100% - 300px);
+  width: calc(100% - 200px);
 `;
 
 const LastModified = styled(Cell)`
-  width: 160px;
+  width: 120px;
 `;
 
 const FileSize = styled(Cell)`
@@ -73,7 +72,8 @@ const FileTableRow: React.FC<FileTableRowProps> = ({
     style.color = '#1967d2';
   }
   if (isHead) {
-    style.borderBottom = "2px solid lightgrey";
+    style.borderBottom = '2px solid lightgrey';
+    style.height = 40;
   }
 
   return (

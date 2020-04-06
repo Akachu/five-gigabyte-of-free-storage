@@ -1,9 +1,9 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { storage } from 'firebase';
 import { Folder as FolderIcon } from '@material-ui/icons';
 import { useDropzone } from 'react-dropzone';
-import useFiles from '../../hooks/useFiles';
+import { useFiles } from '../../hooks/useFiles';
 import FileTableRow from './FileTableRow';
 import { onDrop } from '../../modules/onDrop';
 
@@ -18,7 +18,7 @@ const FolderRow: React.FC<FolderRowProps> = ({
   folder,
   handleSelect,
 }) => {
-  const { setRef } = useFiles();
+  const { ref, setRef } = useFiles();
   const history = useHistory();
   function handleChangeFolder() {
     history.push(`/storage/${folder.fullPath}`);
@@ -32,10 +32,10 @@ const FolderRow: React.FC<FolderRowProps> = ({
       isSelected={isSelected}
       heading={<FolderIcon />}
       name={folder.name}
-      lastModified={'-'}
-      fileSize={'-'}
+      lastModified="-"
+      fileSize="-"
       dropState={useDropzone({
-        onDrop: onDrop(folder),
+        onDrop: onDrop(folder, () => setRef(ref!)),
         noDragEventsBubbling: true,
       })}
     />

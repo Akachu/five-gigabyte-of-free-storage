@@ -4,7 +4,7 @@ import { storage } from 'firebase';
 import { RootState } from '../modules';
 import { requestFileList } from '../modules/files';
 
-export default function useItemList() {
+export function useFiles() {
   const fileList = useSelector((state: RootState) => state.files.fileList);
   const folderList = useSelector((state: RootState) => state.files.folderList);
   const isLoading = useSelector((state: RootState) => state.files.loading);

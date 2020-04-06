@@ -1,22 +1,28 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { storage } from 'firebase';
-import useFiles from '../../hooks/useFiles';
+import { useDropzone } from 'react-dropzone';
+import styled from 'styled-components';
+import { useFiles } from '../../hooks/useFiles';
 import { FileInfo } from '../../modules/files';
 import FileRow from './FileRow';
 import FolderRow from './FolderRow';
-import { useDropzone } from 'react-dropzone';
 import { onDrop } from '../../modules/onDrop';
-import useItemList from '../../hooks/useFiles';
-import styled from 'styled-components';
 import FileTableRow from './FileTableRow';
+import { useSelectedRef } from '../../hooks/useSelectedRef';
 
 const Wrapper = styled.div`
+  width: 100%;
+  flex: 1 0;
+  display: flex;
+  flex-direction: column;
+`;
+
+const RowWrapper = styled.div`
   :focus {
     outline: none;
   }
   width: 100%;
   padding: 1px;
-  flex: 1 0;
 `;
 
 interface FileTableProps {
@@ -25,46 +31,46 @@ interface FileTableProps {
 }
 
 const FileTable = ({ fileList, folderList }: FileTableProps) => {
-  const [selected, setSelected] = useState<null | string>(null);
+  const { selectedRef, setSelectedRef } = useSelectedRef();
 
   function handleSelect(ref: storage.Reference) {
-    return () => setSelected(ref.fullPath);
+    return () => setSelectedRef(ref);
   }
 
-  const { ref, isLoading } = useFiles();
+  const { ref, setRef } = useFiles();
 
   useEffect(() => {
-    setSelected(null);
+    setSelectedRef(null);
   }, [ref]);
 
-  const { getInputProps, getRootProps, isDragActive } = useDropzone({
-    onDrop: onDrop(ref!),
+  const { getRootProps, isDragActive } = useDropzone({
+    onDrop: onDrop(ref!, () => setRef(ref!)),
   });
 
-  const style: React.CSSProperties = {};
+  const style: React.CSSProperties = {
+    flex: '1 0',
+  };
   if (isDragActive) {
     style.boxShadow = '0 0 0 2px #1967d2 inset';
     style.backgroundColor = '#e8f0fe';
   }
 
   return (
-    <div
-      onClick={() => setSelected(null)}
-    >
-      <Wrapper>
+    <Wrapper onClick={() => setSelectedRef(null)}>
+      <RowWrapper>
         <FileTableRow
           isSelected={false}
-          lastModified={'Last modified'}
-          name={'Name'}
-          fileSize={'File size'}
-          isHead={true}
+          lastModified="Last modified"
+          name="Name"
+          fileSize="File size"
+          isHead
         />
-      </Wrapper>
-      <Wrapper {...getRootProps()} style={style}>
+      </RowWrapper>
+      <RowWrapper {...getRootProps()} style={style}>
         {folderList.map(folder => (
           <FolderRow
             key={folder.fullPath}
-            isSelected={selected === folder.fullPath}
+            isSelected={selectedRef?.fullPath === folder.fullPath}
             folder={folder}
             handleSelect={handleSelect}
           />
@@ -73,13 +79,13 @@ const FileTable = ({ fileList, folderList }: FileTableProps) => {
         {fileList.map(fileInfo => (
           <FileRow
             key={fileInfo.ref.fullPath}
-            isSelected={selected === fileInfo.ref.fullPath}
+            isSelected={selectedRef?.fullPath === fileInfo.ref.fullPath}
             file={fileInfo}
             handleSelect={handleSelect}
           />
         ))}
-      </Wrapper>
-    </div>
+      </RowWrapper>
+    </Wrapper>
   );
 };
 
