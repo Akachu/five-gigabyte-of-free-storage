@@ -1,9 +1,11 @@
 import React, { useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import { storage } from 'firebase';
-import { TableRow, TableCell } from '@material-ui/core';
+import { Folder as FolderIcon } from '@material-ui/icons';
 import { useDropzone } from 'react-dropzone';
 import useFiles from '../../hooks/useFiles';
+import FileTableRow from './FileTableRow';
+import { onDrop } from '../../modules/onDrop';
 
 interface FolderRowProps {
   isSelected: boolean;
@@ -23,26 +25,20 @@ const FolderRow: React.FC<FolderRowProps> = ({
     setRef(folder);
   }
 
-  const onDrop = useCallback(acceptedFiles => {
-    // Do something with the files
-    console.log(acceptedFiles);
-  }, []);
-
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
-
   return (
-    <TableRow
-      {...getRootProps()}
-      selected={isSelected}
-      onClick={() => handleSelect(folder)}
+    <FileTableRow
+      onClick={handleSelect(folder)}
       onDoubleClick={handleChangeFolder}
-    >
-      <TableCell>
-        <input type="file" {...getInputProps()} /> {folder.name}
-      </TableCell>
-      <TableCell>-</TableCell>
-      <TableCell>-</TableCell>
-    </TableRow>
+      isSelected={isSelected}
+      heading={<FolderIcon />}
+      name={folder.name}
+      lastModified={'-'}
+      fileSize={'-'}
+      dropState={useDropzone({
+        onDrop: onDrop(folder),
+        noDragEventsBubbling: true,
+      })}
+    />
   );
 };
 

@@ -16,18 +16,33 @@ const FileRow: React.FC<FileRowProps> = ({
 }) => {
   const getSizeString = (byte: number) => {
     let pow = 1;
-    let unit = ['', 'K', 'M', 'G', 'T', 'P'];
-    while (true) {
-      if (Math.pow(1024, pow) > byte) break;
+    const unit = ['', 'K', 'M', 'G', 'T', 'P'];
+    while (1024 ** pow < byte) {
       pow++;
     }
 
-    pow = pow - 1;
+    pow -= 1;
 
-    let size = Math.floor(byte / Math.pow(1024, pow));
+    const size = Math.floor(byte / 1024 ** pow);
 
     return `${size}${unit[pow]}B`;
   };
+
+  async function handleDownload() {
+    const url = await file.ref.getDownloadURL();
+    const response = await axios({
+      url,
+      method: 'GET',
+      responseType: 'blob',
+    });
+    const downloadUrl = window.URL.createObjectURL(new Blob([response.data]));
+    const link = document.createElement('a');
+    link.href = downloadUrl;
+    link.setAttribute('download', file.ref.name);
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+  }
 
   return (
     <FileTableRow
@@ -35,25 +50,8 @@ const FileRow: React.FC<FileRowProps> = ({
       name={file.name}
       lastModified={file.createdAt.toLocaleString()}
       fileSize={getSizeString(file.size)}
-      onClick={() => handleSelect(file.ref)}
-      onDoubleClick={() => {
-        console.log(file.ref);
-        file.ref.getDownloadURL().then(url => {
-          axios({
-            url,
-            method: 'GET',
-            responseType: 'blob',
-          }).then(response => {
-            const url = window.URL.createObjectURL(new Blob([response.data]));
-            const link = document.createElement('a');
-            link.href = url;
-            link.setAttribute('download', file.ref.name);
-            document.body.appendChild(link);
-            link.click();
-          });
-          // file.ref.
-        });
-      }}
+      onClick={handleSelect(file.ref)}
+      onDoubleClick={() => handleDownload()}
     />
   );
 };

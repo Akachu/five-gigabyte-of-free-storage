@@ -6,9 +6,9 @@ import {
   takeLatest,
   // cancelled
 } from 'redux-saga/effects';
+import { showLoading, hideLoading } from 'react-redux-loading-bar';
 import { REQUEST_FILE_LIST, requestFileList, setFileList } from './actions';
 import { FileInfo } from './interface';
-import { showLoading, hideLoading } from 'react-redux-loading-bar';
 
 async function fetchFileMetadata(fileList: Array<storage.Reference>) {
   const promiseList = fileList.map(file => file.getMetadata());
