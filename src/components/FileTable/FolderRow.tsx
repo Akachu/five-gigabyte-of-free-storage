@@ -5,7 +5,7 @@ import { Folder as FolderIcon } from '@material-ui/icons';
 import { useDropzone } from 'react-dropzone';
 import { useFiles } from '../../hooks/useFiles';
 import FileTableRow from './FileTableRow';
-import { onDrop } from '../../modules/onDrop';
+import { useFileUpload } from '../../hooks/useFileUpload';
 
 interface FolderRowProps {
   isSelected: boolean;
@@ -18,12 +18,18 @@ const FolderRow: React.FC<FolderRowProps> = ({
   folder,
   handleSelect,
 }) => {
-  const { ref, setRef } = useFiles();
+  const { setRef } = useFiles();
+  const { uploadFile } = useFileUpload();
   const history = useHistory();
   function handleChangeFolder() {
     history.push(`/storage/${folder.fullPath}`);
     setRef(folder);
   }
+
+  const onDrop = (acceptedFiles: File[]) =>
+    acceptedFiles.forEach((file) => {
+      uploadFile(folder, file);
+    });
 
   return (
     <FileTableRow
@@ -35,7 +41,7 @@ const FolderRow: React.FC<FolderRowProps> = ({
       lastModified="-"
       fileSize="-"
       dropState={useDropzone({
-        onDrop: onDrop(folder, () => setRef(ref!)),
+        onDrop,
         noDragEventsBubbling: true,
       })}
     />

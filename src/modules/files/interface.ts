@@ -1,10 +1,10 @@
-import { storage } from "firebase";
+import { storage } from 'firebase';
 
 export interface FilesState {
   ref?: storage.Reference;
   loading: boolean;
-  folderList?: Array<storage.Reference>;
-  fileList?: Array<FileInfo>;
+  folderList?: storage.Reference[];
+  fileList?: FileInfo[];
 }
 
 export interface FileInfo {

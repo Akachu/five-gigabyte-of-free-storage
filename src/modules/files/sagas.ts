@@ -1,21 +1,20 @@
 import { storage } from 'firebase';
-import {
-  call,
-  put,
-  // delay,
-  takeLatest,
-  // cancelled
-} from 'redux-saga/effects';
+import { call, put, select, takeLatest } from 'redux-saga/effects';
 import { showLoading, hideLoading } from 'react-redux-loading-bar';
-import { REQUEST_FILE_LIST, requestFileList, setFileList } from './actions';
+import {
+  REQUEST_FILE_LIST,
+  requestFileList,
+  setFileList,
+  REFRESH_FILE_LIST,
+} from './actions';
 import { FileInfo } from './interface';
 
 async function fetchFileMetadata(fileList: Array<storage.Reference>) {
-  const promiseList = fileList.map(file => file.getMetadata());
+  const promiseList = fileList.map((file) => file.getMetadata());
 
   const metadataList: Array<any> = await Promise.all(promiseList);
 
-  const fileDataList: Array<FileInfo> = metadataList.map(row => ({
+  const fileDataList: Array<FileInfo> = metadataList.map((row) => ({
     ref: row.ref,
     name: row.name,
     type: row.contentType,
@@ -48,6 +47,18 @@ function* fetchFileList(action: ReturnType<typeof requestFileList>) {
   }
 }
 
+function* refreshFileList() {
+  const getRef = (state: any) => state.files.ref;
+
+  try {
+    const ref: storage.Reference = yield select(getRef);
+    yield put(requestFileList(ref));
+  } catch (err) {
+    console.error(err);
+  }
+}
+
 export default function* watcher() {
   yield takeLatest(REQUEST_FILE_LIST, fetchFileList);
+  yield takeLatest(REFRESH_FILE_LIST, refreshFileList);
 }

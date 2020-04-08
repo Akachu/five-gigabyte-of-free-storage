@@ -20,7 +20,7 @@ const Row = styled.div`
   }
   width: 100%;
   height: 48px;
-  padding: 5px;
+  padding: 10px;
   display: flex;
   align-items: center;
 `;

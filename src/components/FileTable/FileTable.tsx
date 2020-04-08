@@ -6,9 +6,9 @@ import { useFiles } from '../../hooks/useFiles';
 import { FileInfo } from '../../modules/files';
 import FileRow from './FileRow';
 import FolderRow from './FolderRow';
-import { onDrop } from '../../modules/onDrop';
 import FileTableRow from './FileTableRow';
 import { useSelectedRef } from '../../hooks/useSelectedRef';
+import { useFileUpload } from '../../hooks/useFileUpload';
 
 const Wrapper = styled.div`
   width: 100%;
@@ -32,19 +32,25 @@ interface FileTableProps {
 
 const FileTable = ({ fileList, folderList }: FileTableProps) => {
   const { selectedRef, setSelectedRef } = useSelectedRef();
+  const { uploadFile } = useFileUpload();
 
   function handleSelect(ref: storage.Reference) {
     return () => setSelectedRef(ref);
   }
 
-  const { ref, setRef } = useFiles();
+  const { ref } = useFiles();
 
   useEffect(() => {
     setSelectedRef(null);
   }, [ref]);
 
+  const onDrop = (acceptedFiles: File[]) =>
+    acceptedFiles.forEach((file) => {
+      uploadFile(ref!, file);
+    });
+
   const { getRootProps, isDragActive } = useDropzone({
-    onDrop: onDrop(ref!, () => setRef(ref!)),
+    onDrop,
   });
 
   const style: React.CSSProperties = {
@@ -67,7 +73,7 @@ const FileTable = ({ fileList, folderList }: FileTableProps) => {
         />
       </RowWrapper>
       <RowWrapper {...getRootProps()} style={style}>
-        {folderList.map(folder => (
+        {folderList.map((folder) => (
           <FolderRow
             key={folder.fullPath}
             isSelected={selectedRef?.fullPath === folder.fullPath}
@@ -76,7 +82,7 @@ const FileTable = ({ fileList, folderList }: FileTableProps) => {
           />
         ))}
 
-        {fileList.map(fileInfo => (
+        {fileList.map((fileInfo) => (
           <FileRow
             key={fileInfo.ref.fullPath}
             isSelected={selectedRef?.fullPath === fileInfo.ref.fullPath}

@@ -7,7 +7,7 @@ const initialState: FilesState = {
   loading: true,
 };
 
-const itemList = createReducer<FilesState, FilesAction>(initialState, {
+const files = createReducer<FilesState, FilesAction>(initialState, {
   [REQUEST_FILE_LIST]: state => ({
     ...state,
     loading: true,
@@ -15,4 +15,4 @@ const itemList = createReducer<FilesState, FilesAction>(initialState, {
   [SET_FILE_LIST]: (state, action) => action.payload,
 });
 
-export default itemList;
+export default files;
