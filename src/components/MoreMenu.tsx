@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { IconButton, Menu, MenuItem } from '@material-ui/core';
 import { MoreVert as MoreVertIcon } from '@material-ui/icons';
 import { storage } from 'firebase';
-import { handleDownload } from '../modules/handleDownload';
 import { useFiles } from '../hooks/useFiles';
 import { useSelectedRef } from '../hooks/useSelectedRef';
+import { useFileManager } from '../hooks/useFileManager';
 
 interface MoreMenuProps extends React.Props<JSX.Element> {
   reference: storage.Reference;
@@ -14,6 +14,7 @@ const MoreMenu: React.FC<MoreMenuProps> = ({ reference }) => {
   const { refresh } = useFiles();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+  const { downloadFile } = useFileManager();
 
   const { setSelectedRef } = useSelectedRef();
 
@@ -30,7 +31,7 @@ const MoreMenu: React.FC<MoreMenuProps> = ({ reference }) => {
       name: 'Download',
       handleClick: async () => {
         handleClose();
-        await handleDownload(reference);
+        await downloadFile(reference);
       },
     },
     {

@@ -8,7 +8,7 @@ import FileRow from './FileRow';
 import FolderRow from './FolderRow';
 import FileTableRow from './FileTableRow';
 import { useSelectedRef } from '../../hooks/useSelectedRef';
-import { useFileUpload } from '../../hooks/useFileUpload';
+import { useFileManager } from '../../hooks/useFileManager';
 
 const Wrapper = styled.div`
   width: 100%;
@@ -32,7 +32,7 @@ interface FileTableProps {
 
 const FileTable = ({ fileList, folderList }: FileTableProps) => {
   const { selectedRef, setSelectedRef } = useSelectedRef();
-  const { uploadFile } = useFileUpload();
+  const { uploadFile } = useFileManager();
 
   function handleSelect(ref: storage.Reference) {
     return () => setSelectedRef(ref);

@@ -1,7 +1,7 @@
 import React from 'react';
 import FileTableRow from './FileTableRow';
 import { FileInfo } from '../../modules/files';
-import { handleDownload } from '../../modules/handleDownload';
+import { useFileManager } from '../../hooks/useFileManager';
 
 interface FileRowProps {
   isSelected: boolean;
@@ -14,6 +14,7 @@ const FileRow: React.FC<FileRowProps> = ({
   file,
   handleSelect,
 }) => {
+  const { downloadFile } = useFileManager();
   const getSizeString = (byte: number) => {
     let pow = 1;
     const unit = ['', 'K', 'M', 'G', 'T', 'P'];
@@ -35,7 +36,7 @@ const FileRow: React.FC<FileRowProps> = ({
       lastModified={file.createdAt.toLocaleDateString()}
       fileSize={getSizeString(file.size)}
       onClick={handleSelect(file.ref)}
-      onDoubleClick={() => handleDownload(file.ref)}
+      onDoubleClick={() => downloadFile(file.ref)}
     />
   );
 };

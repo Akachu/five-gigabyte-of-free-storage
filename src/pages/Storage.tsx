@@ -4,10 +4,10 @@ import { useParams } from 'react-router-dom';
 import LoadingBarContainer from 'react-redux-loading-bar';
 import styled from 'styled-components';
 import { useFiles } from '../hooks/useFiles';
-import FileTable from '../components/FileTable/FileTable';
+import FileTable from '../components/FileTable';
+import FileManager from '../components/FileManager';
 import Header from '../components/Header';
 import NavBar from '../components/NavBar';
-import FileUploader from '../components/FileUploader/FileUploader';
 
 const Wrapper = styled.div`
   display: flex;
@@ -31,7 +31,7 @@ const Storage: React.FC = () => {
       <LoadingBarContainer style={{ backgroundColor: '#3f51b5' }} />
       <NavBar />
       <FileTable fileList={fileList || []} folderList={folderList || []} />
-      <FileUploader />
+      <FileManager />
     </Wrapper>
   );
 };

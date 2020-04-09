@@ -1,7 +1,7 @@
-import fileUpload from './reducer';
+import fileManager from './reducer';
 
 export * from './actions';
 export * from './types';
 export * from './interface';
 
-export { fileUpload };
+export { fileManager };
