@@ -91,7 +91,9 @@ const FileRequestRow: React.FC<FileRequestRowProps> = ({
     <Wrapper key={key}>
       <NameWrapper>
         <Name>{name}</Name>
-        <Caption>{completed ? '완료' : getRemainTimeString(remainTime)}</Caption>
+        <Caption>
+          {completed ? '완료' : getRemainTimeString(remainTime)}
+        </Caption>
       </NameWrapper>
       <TailWrapper>
         {completed ? (

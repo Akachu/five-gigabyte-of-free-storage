@@ -9,7 +9,6 @@ import {
   Dialog,
   DialogTitle,
   DialogContent,
-  DialogContentText,
   TextField,
   DialogActions,
   Button,
@@ -20,6 +19,7 @@ import {
 } from '@material-ui/icons';
 import styled from 'styled-components';
 import FirebaseApp from '../FirebaseApp';
+import { useFiles } from '../hooks/useFiles';
 
 const Title = styled(Typography)`
   flex-grow: 1;
@@ -29,6 +29,7 @@ const Header: React.FC = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [openNewFolder, setOpenNewFolder] = React.useState<boolean>(false);
   const [folderName, setFolderName] = React.useState('');
+  const { ref, refresh } = useFiles();
 
   const handleMenu = (event: MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -43,10 +44,11 @@ const Header: React.FC = () => {
     setOpenNewFolder(false);
   };
 
-  const handleCreateNewFolder = () => {
-    console.log(folderName);
-    // TODO: 폴더 생성
+  const handleCreateNewFolder = async () => {
+    const tempFile = new File([], 'FOLDER_PLACE_HOLDER');
     handleCloseNewFolder();
+    await ref!.child(`${folderName}/__FOLDER_PLACE_HOLDER__`).put(tempFile);
+    refresh();
   };
 
   const handleClose = () => {
@@ -71,7 +73,7 @@ const Header: React.FC = () => {
       <Toolbar>
         <Title variant="h6">Storage</Title>
         <IconButton
-          aria-label="account of current user"
+          aria-label="open create new folder dialog"
           aria-controls="menu-appbar"
           aria-haspopup="true"
           onClick={handleOpenNewFolder}
@@ -82,7 +84,7 @@ const Header: React.FC = () => {
         <Dialog
           open={openNewFolder}
           onClose={handleCloseNewFolder}
-          aria-labelledby="form-dialog-title"
+          aria-labelledby="new-folder"
         >
           <DialogTitle id="form-dialog-title">New Folder</DialogTitle>
           <DialogContent>

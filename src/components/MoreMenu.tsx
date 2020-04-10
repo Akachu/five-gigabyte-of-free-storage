@@ -26,6 +26,13 @@ const MoreMenu: React.FC<MoreMenuProps> = ({ reference }) => {
     setAnchorEl(null);
   };
 
+  const deleteFolder = async (ref: storage.Reference) => {
+    const { items, prefixes } = await ref.listAll();
+
+    await Promise.all(items.map((fileRef) => fileRef.delete()));
+    await Promise.all(prefixes.map((folderRef) => deleteFolder(folderRef)));
+  };
+
   const options = [
     {
       name: 'Download',
@@ -38,7 +45,7 @@ const MoreMenu: React.FC<MoreMenuProps> = ({ reference }) => {
       name: 'Delete',
       handleClick: async () => {
         handleClose();
-        await reference.delete();
+        await deleteFolder(reference);
         setSelectedRef(null);
         refresh();
       },

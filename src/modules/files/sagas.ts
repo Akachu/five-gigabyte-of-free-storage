@@ -33,7 +33,9 @@ function* fetchFileList(action: ReturnType<typeof requestFileList>) {
     yield put(showLoading());
     const result: storage.ListResult = yield call(() => payload.list());
     const folderList = result.prefixes;
-    const fileRefList = result.items;
+    const fileRefList = result.items.filter(
+      (file) => file.name !== '__FOLDER_PLACE_HOLDER__',
+    );
 
     const fileList: Array<FileInfo> = yield fetchFileMetadata(fileRefList);
 
